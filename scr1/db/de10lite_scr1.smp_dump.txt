@@ -1,0 +1,140 @@
+
+State Machine - |de10lite_scr1|de10lite_sopc:i_soc|de10lite_sopc_sdram:sdram|m_next
+Name m_next.010000000 m_next.000010000 m_next.000001000 m_next.000000001 
+m_next.000000001 0 0 0 0 
+m_next.000001000 0 0 1 1 
+m_next.000010000 0 1 0 1 
+m_next.010000000 1 0 0 1 
+
+State Machine - |de10lite_scr1|de10lite_sopc:i_soc|de10lite_sopc_sdram:sdram|m_state
+Name m_state.100000000 m_state.010000000 m_state.001000000 m_state.000100000 m_state.000010000 m_state.000001000 m_state.000000100 m_state.000000010 m_state.000000001 
+m_state.000000001 0 0 0 0 0 0 0 0 0 
+m_state.000000010 0 0 0 0 0 0 0 1 1 
+m_state.000000100 0 0 0 0 0 0 1 0 1 
+m_state.000001000 0 0 0 0 0 1 0 0 1 
+m_state.000010000 0 0 0 0 1 0 0 0 1 
+m_state.000100000 0 0 0 1 0 0 0 0 1 
+m_state.001000000 0 0 1 0 0 0 0 0 1 
+m_state.010000000 0 1 0 0 0 0 0 0 1 
+m_state.100000000 1 0 0 0 0 0 0 0 1 
+
+State Machine - |de10lite_scr1|de10lite_sopc:i_soc|de10lite_sopc_sdram:sdram|i_next
+Name i_next.111 i_next.101 i_next.010 i_next.000 
+i_next.000 0 0 0 0 
+i_next.010 0 0 1 1 
+i_next.101 0 1 0 1 
+i_next.111 1 0 0 1 
+
+State Machine - |de10lite_scr1|de10lite_sopc:i_soc|de10lite_sopc_sdram:sdram|i_state
+Name i_state.111 i_state.101 i_state.011 i_state.010 i_state.001 i_state.000 
+i_state.000 0 0 0 0 0 0 
+i_state.001 0 0 0 0 1 1 
+i_state.010 0 0 0 1 0 1 
+i_state.011 0 0 1 0 0 1 
+i_state.101 0 1 0 0 0 1 
+i_state.111 1 0 0 0 0 1 
+
+State Machine - |de10lite_scr1|de10lite_sopc:i_soc|altera_reset_sequencer:reset_sequencer_0|altera_reset_sequencer_main:main|state
+Name state.S_ASRT_SEQ state.S_DSRT_SEQ state.S_ASRT_HOLD 
+state.S_ASRT_SEQ 0 0 0 
+state.S_ASRT_HOLD 1 0 1 
+state.S_DSRT_SEQ 1 1 0 
+
+State Machine - |de10lite_scr1|de10lite_sopc:i_soc|altera_error_response_slave:default_slave|altera_error_response_slave_resp_logic:read_channel_resp|state
+Name state.S_RESP state.S_WADDR state.S_WDATA state.S_IDLE 
+state.S_IDLE 0 0 0 0 
+state.S_WDATA 0 0 1 1 
+state.S_WADDR 0 1 0 1 
+state.S_RESP 1 0 0 1 
+
+State Machine - |de10lite_scr1|de10lite_sopc:i_soc|altera_error_response_slave:default_slave|altera_error_response_slave_resp_logic:write_channel_resp|state
+Name state.S_RESP state.S_WADDR state.S_WDATA state.S_IDLE 
+state.S_IDLE 0 0 0 0 
+state.S_WDATA 0 0 1 1 
+state.S_WADDR 0 1 0 1 
+state.S_RESP 1 0 0 1 
+
+State Machine - |de10lite_scr1|ahb_avalon_bridge:i_ahb_dmem|state
+Name state.READ_STALL state.READ state.WRITE state.IDLE 
+state.IDLE 0 0 0 0 
+state.WRITE 0 0 1 1 
+state.READ 0 1 0 1 
+state.READ_STALL 1 0 0 1 
+
+State Machine - |de10lite_scr1|ahb_avalon_bridge:i_ahb_imem|state
+Name state.READ_STALL state.READ state.WRITE state.IDLE 
+state.IDLE 0 0 0 0 
+state.WRITE 0 0 1 1 
+state.READ 0 1 0 1 
+state.READ_STALL 1 0 0 1 
+
+State Machine - |de10lite_scr1|uart_top:i_uart|uart_wb:wb_interface|wbstate
+Name wbstate.11 wbstate.10 wbstate.01 wbstate.00 
+wbstate.00 0 0 0 0 
+wbstate.01 0 0 1 1 
+wbstate.10 0 1 0 1 
+wbstate.11 1 0 0 1 
+
+State Machine - |de10lite_scr1|scr1_top_ahb:i_scr1|scr1_dmem_router:i_dmem_router|port_sel_r
+Name port_sel_r.SCR1_SEL_PORT0 port_sel_r.SCR1_SEL_PORT2 port_sel_r.SCR1_SEL_PORT1 
+port_sel_r.SCR1_SEL_PORT0 0 0 0 
+port_sel_r.SCR1_SEL_PORT1 1 0 1 
+port_sel_r.SCR1_SEL_PORT2 1 1 0 
+
+State Machine - |de10lite_scr1|scr1_top_ahb:i_scr1|scr1_core_top:i_core_top|scr1_dm:i_dm|dhi_fsm_ff
+Name dhi_fsm_ff.DHI_STATE_RESUME_RUN dhi_fsm_ff.DHI_STATE_RESUME_REQ dhi_fsm_ff.DHI_STATE_HALT_REQ dhi_fsm_ff.DHI_STATE_EXEC_HALT dhi_fsm_ff.DHI_STATE_EXEC_RUN dhi_fsm_ff.DHI_STATE_EXEC dhi_fsm_ff.DHI_STATE_IDLE 
+dhi_fsm_ff.DHI_STATE_IDLE 0 0 0 0 0 0 0 
+dhi_fsm_ff.DHI_STATE_EXEC 0 0 0 0 0 1 1 
+dhi_fsm_ff.DHI_STATE_EXEC_RUN 0 0 0 0 1 0 1 
+dhi_fsm_ff.DHI_STATE_EXEC_HALT 0 0 0 1 0 0 1 
+dhi_fsm_ff.DHI_STATE_HALT_REQ 0 0 1 0 0 0 1 
+dhi_fsm_ff.DHI_STATE_RESUME_REQ 0 1 0 0 0 0 1 
+dhi_fsm_ff.DHI_STATE_RESUME_RUN 1 0 0 0 0 0 1 
+
+State Machine - |de10lite_scr1|scr1_top_ahb:i_scr1|scr1_core_top:i_core_top|scr1_dm:i_dm|abs_fsm_ff
+Name abs_fsm_ff.ABS_STATE_CSR_RETURN_XREG abs_fsm_ff.ABS_STATE_CSR_RW abs_fsm_ff.ABS_STATE_CSR_SAVE_XREG abs_fsm_ff.ABS_STATE_CSR_RO abs_fsm_ff.ABS_STATE_MEM_RETURN_XREG_FORADDR abs_fsm_ff.ABS_STATE_MEM_RETURN_XREG abs_fsm_ff.ABS_STATE_MEM_RW abs_fsm_ff.ABS_STATE_MEM_SAVE_XREG_FORADDR abs_fsm_ff.ABS_STATE_MEM_SAVE_XREG abs_fsm_ff.ABS_STATE_XREG_RW abs_fsm_ff.ABS_STATE_EXEC abs_fsm_ff.ABS_STATE_ERR abs_fsm_ff.ABS_STATE_IDLE 
+abs_fsm_ff.ABS_STATE_IDLE 0 0 0 0 0 0 0 0 0 0 0 0 0 
+abs_fsm_ff.ABS_STATE_ERR 0 0 0 0 0 0 0 0 0 0 0 1 1 
+abs_fsm_ff.ABS_STATE_EXEC 0 0 0 0 0 0 0 0 0 0 1 0 1 
+abs_fsm_ff.ABS_STATE_XREG_RW 0 0 0 0 0 0 0 0 0 1 0 0 1 
+abs_fsm_ff.ABS_STATE_MEM_SAVE_XREG 0 0 0 0 0 0 0 0 1 0 0 0 1 
+abs_fsm_ff.ABS_STATE_MEM_SAVE_XREG_FORADDR 0 0 0 0 0 0 0 1 0 0 0 0 1 
+abs_fsm_ff.ABS_STATE_MEM_RW 0 0 0 0 0 0 1 0 0 0 0 0 1 
+abs_fsm_ff.ABS_STATE_MEM_RETURN_XREG 0 0 0 0 0 1 0 0 0 0 0 0 1 
+abs_fsm_ff.ABS_STATE_MEM_RETURN_XREG_FORADDR 0 0 0 0 1 0 0 0 0 0 0 0 1 
+abs_fsm_ff.ABS_STATE_CSR_RO 0 0 0 1 0 0 0 0 0 0 0 0 1 
+abs_fsm_ff.ABS_STATE_CSR_SAVE_XREG 0 0 1 0 0 0 0 0 0 0 0 0 1 
+abs_fsm_ff.ABS_STATE_CSR_RW 0 1 0 0 0 0 0 0 0 0 0 0 1 
+abs_fsm_ff.ABS_STATE_CSR_RETURN_XREG 1 0 0 0 0 0 0 0 0 0 0 0 1 
+
+State Machine - |de10lite_scr1|scr1_top_ahb:i_scr1|scr1_core_top:i_core_top|scr1_tapc:i_tapc|tap_fsm_ff
+Name tap_fsm_ff.SCR1_TAP_STATE_IR_UPDATE tap_fsm_ff.SCR1_TAP_STATE_IR_EXIT2 tap_fsm_ff.SCR1_TAP_STATE_IR_PAUSE tap_fsm_ff.SCR1_TAP_STATE_IR_EXIT1 tap_fsm_ff.SCR1_TAP_STATE_IR_SHIFT tap_fsm_ff.SCR1_TAP_STATE_IR_CAPTURE tap_fsm_ff.SCR1_TAP_STATE_IR_SEL_SCAN tap_fsm_ff.SCR1_TAP_STATE_DR_UPDATE tap_fsm_ff.SCR1_TAP_STATE_DR_EXIT2 tap_fsm_ff.SCR1_TAP_STATE_DR_PAUSE tap_fsm_ff.SCR1_TAP_STATE_DR_EXIT1 tap_fsm_ff.SCR1_TAP_STATE_DR_SHIFT tap_fsm_ff.SCR1_TAP_STATE_DR_CAPTURE tap_fsm_ff.SCR1_TAP_STATE_DR_SEL_SCAN tap_fsm_ff.SCR1_TAP_STATE_IDLE tap_fsm_ff.SCR1_TAP_STATE_RESET 
+tap_fsm_ff.SCR1_TAP_STATE_RESET 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+tap_fsm_ff.SCR1_TAP_STATE_IDLE 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 
+tap_fsm_ff.SCR1_TAP_STATE_DR_SEL_SCAN 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 1 
+tap_fsm_ff.SCR1_TAP_STATE_DR_CAPTURE 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 1 
+tap_fsm_ff.SCR1_TAP_STATE_DR_SHIFT 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 
+tap_fsm_ff.SCR1_TAP_STATE_DR_EXIT1 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 1 
+tap_fsm_ff.SCR1_TAP_STATE_DR_PAUSE 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 1 
+tap_fsm_ff.SCR1_TAP_STATE_DR_EXIT2 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 1 
+tap_fsm_ff.SCR1_TAP_STATE_DR_UPDATE 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 1 
+tap_fsm_ff.SCR1_TAP_STATE_IR_SEL_SCAN 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 1 
+tap_fsm_ff.SCR1_TAP_STATE_IR_CAPTURE 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 1 
+tap_fsm_ff.SCR1_TAP_STATE_IR_SHIFT 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 1 
+tap_fsm_ff.SCR1_TAP_STATE_IR_EXIT1 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 1 
+tap_fsm_ff.SCR1_TAP_STATE_IR_PAUSE 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 1 
+tap_fsm_ff.SCR1_TAP_STATE_IR_EXIT2 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 1 
+tap_fsm_ff.SCR1_TAP_STATE_IR_UPDATE 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 
+
+State Machine - |de10lite_scr1|scr1_top_ahb:i_scr1|scr1_core_top:i_core_top|scr1_pipe_top:i_pipe_top|scr1_pipe_hdu:i_pipe_hdu|pbuf_fsm_curr
+Name pbuf_fsm_curr.SCR1_HDU_PBUFSTATE_WAIT4END pbuf_fsm_curr.SCR1_HDU_PBUFSTATE_EXCINJECT pbuf_fsm_curr.SCR1_HDU_PBUFSTATE_FETCH pbuf_fsm_curr.SCR1_HDU_PBUFSTATE_IDLE 
+pbuf_fsm_curr.SCR1_HDU_PBUFSTATE_IDLE 0 0 0 0 
+pbuf_fsm_curr.SCR1_HDU_PBUFSTATE_FETCH 0 0 1 1 
+pbuf_fsm_curr.SCR1_HDU_PBUFSTATE_EXCINJECT 0 1 0 1 
+pbuf_fsm_curr.SCR1_HDU_PBUFSTATE_WAIT4END 1 0 0 1 
+
+State Machine - |de10lite_scr1|scr1_top_ahb:i_scr1|scr1_core_top:i_core_top|scr1_pipe_top:i_pipe_top|scr1_pipe_exu:i_pipe_exu|scr1_pipe_ialu:i_ialu|mdu_fsm_ff
+Name mdu_fsm_ff.SCR1_IALU_MDU_FSM_IDLE mdu_fsm_ff.SCR1_IALU_MDU_FSM_CORR mdu_fsm_ff.SCR1_IALU_MDU_FSM_ITER 
+mdu_fsm_ff.SCR1_IALU_MDU_FSM_IDLE 0 0 0 
+mdu_fsm_ff.SCR1_IALU_MDU_FSM_ITER 1 0 1 
+mdu_fsm_ff.SCR1_IALU_MDU_FSM_CORR 1 1 0 
