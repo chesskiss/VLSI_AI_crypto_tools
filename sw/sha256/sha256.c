@@ -100,15 +100,21 @@ void SHA256Transform(SHA256_CTX *ctx, uchar data[])
 
 void SHA256Update(SHA256_CTX *ctx, uchar data[], uint len)
 {
-	for (uint i = 0; i < len; ++i) {
+	printf("len is %08x :", len);
+	for (uint i = 0; i < len; i+=64) {
+		SHA256Transform(ctx, data);
+		DBL_INT_ADD(ctx->bitlen[0], ctx->bitlen[1], 512);
+		ctx->datalen = 0;
+		data+= 64;
+		printf("i is %08x :", i);
+	}
+
+	for (uint i= (len/64)*64; i < len; i++){
 		ctx->data[ctx->datalen] = data[i];
 		ctx->datalen++;
-		if (ctx->datalen == 64) {
-			SHA256Transform(ctx, ctx->data);
-			DBL_INT_ADD(ctx->bitlen[0], ctx->bitlen[1], 512);
-			ctx->datalen = 0;
-		}
 	}
+	
+	
 }
 
 void SHA256Final(SHA256_CTX *ctx, uchar hash[])
@@ -170,8 +176,6 @@ void SHA256(char* data) {
 
 int main(void)
 {
-
-
     unsigned int mcycle_l_start, mcycle_h_start;
     unsigned int mcycle_l_end, mcycle_h_end;
     unsigned int total_time_l, total_time_h;
