@@ -1,0 +1,16 @@
+<sld_project_info>
+  <project>
+    <hash md5_digest_80b="bc6aa7c75358b5ff1630"/>
+  </project>
+  <file_info>
+    <file device="10M50DAF484C7G" path="de10lite_scr1.sof" usercode="0xFFFFFFFF"/>
+  </file_info>
+  <sld_infos>
+    <sld_info hpath="de10lite_sopc:i_soc" name="i_soc">
+      <assignment_values>
+        <assignment_value text="QSYS_NAME de10lite_sopc HAS_SOPCINFO 1 GENERATION_ID 1649489898"/>
+      </assignment_values>
+      <parameters/>
+    </sld_info>
+  </sld_infos>
+</sld_project_info>

@@ -1,0 +1,6 @@
+v1
+DSP_BALANCING_IMPLEMENTATION,DSP_BLOCKS,scr1_top_ahb:i_scr1|scr1_core_top:i_core_top|scr1_pipe_top:i_pipe_top|scr1_pipe_exu:i_pipe_exu|scr1_pipe_ialu:i_ialu|lpm_mult:Mult0|mult_ugs:auto_generated|mac_out2,
+DSP_BALANCING_IMPLEMENTATION,DSP_BLOCKS,scr1_top_ahb:i_scr1|scr1_core_top:i_core_top|scr1_pipe_top:i_pipe_top|scr1_pipe_exu:i_pipe_exu|scr1_pipe_ialu:i_ialu|lpm_mult:Mult0|mult_ugs:auto_generated|mac_out4,
+DSP_BALANCING_IMPLEMENTATION,DSP_BLOCKS,scr1_top_ahb:i_scr1|scr1_core_top:i_core_top|scr1_pipe_top:i_pipe_top|scr1_pipe_exu:i_pipe_exu|scr1_pipe_ialu:i_ialu|lpm_mult:Mult0|mult_ugs:auto_generated|mac_out6,
+DSP_BALANCING_IMPLEMENTATION,DSP_BLOCKS,scr1_top_ahb:i_scr1|scr1_core_top:i_core_top|scr1_pipe_top:i_pipe_top|scr1_pipe_exu:i_pipe_exu|scr1_pipe_ialu:i_ialu|lpm_mult:Mult0|mult_ugs:auto_generated|mac_out8,
+PORT_SWAPPING,PORT_SWAP_TYPE_DSPMULT,scr1_top_ahb:i_scr1|scr1_core_top:i_core_top|scr1_pipe_top:i_pipe_top|scr1_pipe_exu:i_pipe_exu|scr1_pipe_ialu:i_ialu|lpm_mult:Mult0|mult_ugs:auto_generated|mac_mult5,

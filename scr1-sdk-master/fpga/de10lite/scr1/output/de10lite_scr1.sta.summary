@@ -1,0 +1,61 @@
+------------------------------------------------------------
+Timing Analyzer Summary
+------------------------------------------------------------
+
+Type  : Setup 'CLK_SDRAM'
+Slack : 1.350
+TNS   : 0.000
+
+Type  : Setup 'CPU_CLK'
+Slack : 14.702
+TNS   : 0.000
+
+Type  : Setup 'JTAG_TCK'
+Slack : 93.896
+TNS   : 0.000
+
+Type  : Hold 'JTAG_TCK'
+Slack : 0.378
+TNS   : 0.000
+
+Type  : Hold 'CPU_CLK'
+Slack : 0.405
+TNS   : 0.000
+
+Type  : Hold 'CLK_SDRAM'
+Slack : 0.409
+TNS   : 0.000
+
+Type  : Recovery 'CLK_SDRAM'
+Slack : 5.055
+TNS   : 0.000
+
+Type  : Recovery 'CPU_CLK'
+Slack : 44.018
+TNS   : 0.000
+
+Type  : Removal 'CPU_CLK'
+Slack : 1.452
+TNS   : 0.000
+
+Type  : Removal 'CLK_SDRAM'
+Slack : 3.012
+TNS   : 0.000
+
+Type  : Minimum Pulse Width 'CLK_SDRAM'
+Slack : 4.709
+TNS   : 0.000
+
+Type  : Minimum Pulse Width 'MAX10_CLK2_50'
+Slack : 9.844
+TNS   : 0.000
+
+Type  : Minimum Pulse Width 'CPU_CLK'
+Slack : 24.667
+TNS   : 0.000
+
+Type  : Minimum Pulse Width 'JTAG_TCK'
+Slack : 99.658
+TNS   : 0.000
+
+------------------------------------------------------------

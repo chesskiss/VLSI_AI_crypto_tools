@@ -1,0 +1,16 @@
+Analysis & Synthesis Status : Successful - Sat Apr 09 10:39:54 2022
+Quartus Prime Version : 20.1.0 Build 711 06/05/2020 SJ Lite Edition
+Revision Name : de10lite_scr1
+Top-level Entity Name : de10lite_scr1
+Family : MAX 10
+Total logic elements : 12,108
+    Total combinational functions : 10,551
+    Dedicated logic registers : 4,406
+Total registers : 4406
+Total pins : 118
+Total virtual pins : 0
+Total memory bits : 1,050,624
+Embedded Multiplier 9-bit elements : 8
+Total PLLs : 1
+UFM blocks : 0
+ADC blocks : 0
