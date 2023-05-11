@@ -100,15 +100,29 @@ void SHA256Transform(SHA256_CTX *ctx, uchar data[])
 
 void SHA256Update(SHA256_CTX *ctx, uchar data[], uint len)
 {
-	for (uint i = 0; i < len; ++i) {
-		ctx->data[ctx->datalen] = data[i];
-		ctx->datalen++;
-		if (ctx->datalen == 64) {
-			SHA256Transform(ctx, ctx->data);
-			DBL_INT_ADD(ctx->bitlen[0], ctx->bitlen[1], 512);
-			ctx->datalen = 0;
-		}
+	//printf("len is %08x :\n", len);
+	for (uint i = 0; i < len; i+=64) {
+		SHA256Transform(ctx, data);
+		DBL_INT_ADD(ctx->bitlen[0], ctx->bitlen[1], 512);
+		ctx->datalen = 0;
+		//printf("data[i] is %08x :\n", i);
+		data= i;
+		//printf("i is %08x :\n", i);
+	// sizeof(data)/sizeof(data[0])
 	}
+	//printf("exited len is %08x :", len);
+
+	for (uint i= (len/64)*64+1; i < len; i++){
+		//printf("second i is %08x :\n", i);
+		//printf("data is %08x :\n", data[i]);
+		ctx->data[i] = data[i];
+		//printf("ctx data passed\n");
+		ctx->datalen=i;
+		//printf("LENNNNN ctx data len passed\n" );
+	}
+	
+	//printf("exited Update :\n");
+	
 }
 
 void SHA256Final(SHA256_CTX *ctx, uchar hash[])
@@ -170,8 +184,25 @@ void SHA256(char* data) {
 
 int main(void)
 {
-
-
+	//printf("SHA is working \n");
+	//unsigned int *go= (unsigned int*)0xf0030000;
+	//unsigned int *counter	= (unsigned int*)0xf0030004;
+	//unsigned int *a	= (unsigned int*)0xf0030008;
+	//unsigned int *b = (unsigned int*)0xf003000C;
+	//
+	//
+	//*a = 0x000001234;
+	//*b = 0x000001234;
+	////*c = 0x000001234;
+	//go = (unsigned int*)0x1;
+	//
+	//unsigned int *c = (unsigned int*)0xf0030010;
+	//printf("a is %x,  b is %x,  c is %x,  counter %x \n", *a, *b, *c, *counter);
+	//printf("adrees c is %x value at adress  c is  %x \n", c, *c);
+	//go = (unsigned int*)0x10;
+	//printf("g1 is %08x,  g2 is %08x,  g3 is %08x", *a, *b, *c);
+	
+	
     unsigned int mcycle_l_start, mcycle_h_start;
     unsigned int mcycle_l_end, mcycle_h_end;
     unsigned int total_time_l, total_time_h;
