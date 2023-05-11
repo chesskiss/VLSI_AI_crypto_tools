@@ -14,6 +14,8 @@
  `define SCR1_IMEM_ROUTER_EN
 `endif // SCR1_TCM_EN
 
+
+
 module scr1_top_ahb (
     // Control
     input   logic                                   pwrup_rst_n,            // Power-Up Reset
@@ -152,6 +154,20 @@ logic [`SCR1_DMEM_DWIDTH-1:0]                       tcm_dmem_wdata;
 logic [`SCR1_DMEM_DWIDTH-1:0]                       tcm_dmem_rdata;
 type_scr1_mem_resp_e                                tcm_dmem_resp;
 `endif // SCR1_TCM_EN
+
+
+// Data memory interface from router to ACCEL
+logic                                               accel_dmem_req_ack;
+logic                                               accel_dmem_req;
+type_scr1_mem_cmd_e                                 accel_dmem_cmd;
+type_scr1_mem_width_e                               accel_dmem_width;
+logic [`SCR1_DMEM_AWIDTH-1:0]                       accel_dmem_addr;
+logic [`SCR1_DMEM_DWIDTH-1:0]                       accel_dmem_wdata;
+logic [`SCR1_DMEM_DWIDTH-1:0]                       accel_dmem_rdata;
+type_scr1_mem_resp_e                                accel_dmem_resp;
+
+
+
 
 // Data memory interface from router to memory-mapped timer
 logic                                               timer_dmem_req_ack;
@@ -311,6 +327,25 @@ scr1_tcm #(
 );
 `endif // SCR1_TCM_EN
 
+//`ifdef SCR1_ACCEL_EN
+//-------------------------------------------------------------------------------
+// ACCEL instance
+//-------------------------------------------------------------------------------
+scr1_accel (
+    .clk            (clk             ),
+    .rst_n          (core_rst_n_local),
+
+    // Data interface to ACCEL
+    .dmem_req_ack   (accel_dmem_req_ack),
+    .dmem_req       (accel_dmem_req    ),
+    .dmem_cmd       (accel_dmem_cmd    ),
+    .dmem_width     (accel_dmem_width  ),
+    .dmem_addr      (accel_dmem_addr   ),
+    .dmem_wdata     (accel_dmem_wdata  ),
+    .dmem_rdata     (accel_dmem_rdata  ),
+    .dmem_resp      (accel_dmem_resp   )
+);
+//`endif // SCR1_ACCEL_EN
 
 //-------------------------------------------------------------------------------
 // Memory-mapped timer instance
@@ -398,8 +433,15 @@ scr1_dmem_router #(
     .SCR1_PORT1_ADDR_PATTERN    (32'hFFFFFFFF),
 `endif // SCR1_TCM_EN
 
+//`ifdef SCR1_ACCEL_EN
+	.SCR1_PORT3_ADDR_MASK       (SCR1_PORT3_ADDR_MASK),
+	.SCR1_PORT3_ADDR_PATTERN    (SCR1_PORT3_ADDR_PATTERN),
+//`endif // SCR1_ACCEL_EN
+
     .SCR1_PORT2_ADDR_MASK       (SCR1_TIMER_ADDR_MASK),
     .SCR1_PORT2_ADDR_PATTERN    (SCR1_TIMER_ADDR_PATTERN)
+	
+
 
 ) i_dmem_router (
     .rst_n          (core_rst_n_local    ),
@@ -433,6 +475,7 @@ scr1_dmem_router #(
     .port1_rdata    ('0                  ),
     .port1_resp     (SCR1_MEM_RESP_RDY_ER),
 `endif // SCR1_TCM_EN
+
     // Interface to memory-mapped timer
     .port2_req_ack  (timer_dmem_req_ack  ),
     .port2_req      (timer_dmem_req      ),
@@ -442,6 +485,19 @@ scr1_dmem_router #(
     .port2_wdata    (timer_dmem_wdata    ),
     .port2_rdata    (timer_dmem_rdata    ),
     .port2_resp     (timer_dmem_resp     ),
+	
+	 // Interface to memory-mapped ACCEL
+    .port3_req_ack  (accel_dmem_req_ack  ),
+    .port3_req      (accel_dmem_req      ),
+    .port3_cmd      (accel_dmem_cmd      ),
+    .port3_width    (accel_dmem_width    ),
+    .port3_addr     (accel_dmem_addr     ),
+    .port3_wdata    (accel_dmem_wdata    ),
+    .port3_rdata    (accel_dmem_rdata    ),
+    .port3_resp     (accel_dmem_resp     ),
+	
+	
+	
     // Interface to AHB bridge
     .port0_req_ack  (ahb_dmem_req_ack    ),
     .port0_req      (ahb_dmem_req        ),
