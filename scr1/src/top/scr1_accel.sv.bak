@@ -24,8 +24,6 @@ module scr1_accel
     output  type_scr1_mem_resp_e            dmem_resp
 );
 
-
-
 //-------------------------------------------------------------------------------
 // Local signal declaration
 //-------------------------------------------------------------------------------
@@ -138,19 +136,19 @@ end
 	 end
 	 
 	 
-	 assign out = in1 * in2; // original
+	 assign out = in1 * in2;
 	 
 	wire [31:0] result_in;
 
 	assign result_in = (counter==16'd0) ? {result[31:8], out} : 
 							(counter==16'd1) ? {result[31:16], out, result[7:0]}:
-							 result; // Thready said we can delete if we don't use word split.
+							 result;
 							 
 	 always @(posedge clk or negedge rst_n)
 		if(~rst_n) result <=32'h0;
 		else result <= result_in;
 	 	 
-	 assign data_C = result; // the note is ours in1*in2;
+	 assign data_C = result;
 	 
 	 assign done_bit_in = (counter == 16'd2);
 	 
@@ -165,7 +163,6 @@ always_ff @(posedge clk) begin
     end
 end
 
-assign dmem_rdata = dmem_rdata_local >> ( 8 * dmem_rdata_shift_reg ); // this is output
-
+assign dmem_rdata = dmem_rdata_local >> ( 8 * dmem_rdata_shift_reg );
 
 endmodule : scr1_accel
