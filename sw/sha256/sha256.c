@@ -114,8 +114,8 @@ void SHA256Transform(SHA256_CTX *ctx, uchar data[])
 void SHA256Update(SHA256_CTX *ctx, uchar data[], uint len, int ilen)
 {
 	uint i = 63;
-    uchar *copy = data;
-    ctx->datalen = len%64 + 1;
+	uchar *copy = data;
+	ctx->datalen = len%64 + 1;
 	
 	while (i<len){
 		SHA256Transform(ctx, copy);
