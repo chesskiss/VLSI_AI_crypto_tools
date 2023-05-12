@@ -3,6 +3,7 @@
 #include <string.h>
 #include "csr.h"
 
+
 #define uchar unsigned char
 #define uint unsigned int
 
@@ -12,7 +13,6 @@
 
 #define CH(x,y,z) (((x) & (y)) ^ (~(x) & (z)))
 #define MAJ(x,y,z) (((x) & (y)) ^ ((x) & (z)) ^ ((y) & (z)))
-
 #define EP0(x) (ROTRIGHT(x,2) ^ ROTRIGHT(x,13) ^ ROTRIGHT(x,22))
 #define EP1(x) (ROTRIGHT(x,6) ^ ROTRIGHT(x,11) ^ ROTRIGHT(x,25))
 #define SIG0(x) (ROTRIGHT(x,7) ^ ROTRIGHT(x,18) ^ ((x) >> 3))
@@ -58,12 +58,10 @@ void SHA256Transform(SHA256_CTX *ctx, uchar data[])
 {
 	uint a, b, c, d, e, f, g, h, i, j, t1, t2, m[64];
 
-	for (i = 0, j = 0; i < 16; ++i, j += 4){
+	for (i = 0, j = 0; i < 16; ++i, j += 4)
 		m[i] = (data[j] << 24) | (data[j + 1] << 16) | (data[j + 2] << 8) | (data[j + 3]);
-}
-	for (; i < 64; ++i){
+	for (; i < 64; ++i)
 		m[i] = SIG1(m[i - 2]) + m[i - 7] + SIG0(m[i - 15]) + m[i - 16];
-	}
 
 	a = ctx->state[0];
 	b = ctx->state[1];
@@ -75,19 +73,8 @@ void SHA256Transform(SHA256_CTX *ctx, uchar data[])
 	h = ctx->state[7];
 
 	for (i = 0; i < 64; ++i) {
-		if (e == 0){
-			t1 = 11111111111111111;
-		}
-		else{
-			t1 = h + EP1(e) + CH(e, f, g) + k[i] + m[i];
-		}
-		if (a == 0){
-			t2 = 0;
-		}
-		else{
-			t2 = EP0(a) + MAJ(a, b, c);
-		}
-		
+		t1 = h + EP1(e) + CH(e, f, g) + k[i] + m[i];
+		t2 = EP0(a) + MAJ(a, b, c);
 		h = g;
 		g = f;
 		f = e;
@@ -106,29 +93,22 @@ void SHA256Transform(SHA256_CTX *ctx, uchar data[])
 	ctx->state[5] += f;
 	ctx->state[6] += g;
 	ctx->state[7] += h;
-    //** Do not remove this/modify code **
+    //****** Do not remove this/modify code ******
 	total_num_of_sha256_ops++;
-    //** End of do not remove/modify this code **
+    //****** End of do not remove/modify this code ******
 }
 
-void SHA256Update(SHA256_CTX *ctx, uchar data[], uint len, int ilen)
+void SHA256Update(SHA256_CTX *ctx, uchar data[], uint len)
 {
-	uint i = 63;
-    uchar *copy = data;
-    ctx->datalen = len%64 + 1;
-	
-	while (i<len){
-		SHA256Transform(ctx, copy);
-        copy+=64;
-		DBL_INT_ADD(ctx->bitlen[0], ctx->bitlen[1], 512);
-		i+=64;
+	for (uint i = 0; i < len; ++i) {
+		ctx->data[ctx->datalen] = data[i];
+		ctx->datalen++;
+		if (ctx->datalen == 64) {
+			SHA256Transform(ctx, ctx->data);
+			DBL_INT_ADD(ctx->bitlen[0], ctx->bitlen[1], 512);
+			ctx->datalen = 0;
+		}
 	}
-	
-	for (uint j = (len/64)*64 ; j< len; j++){
-	    ctx->data[j%64] = data[j];
-	    ctx->datalen = j%64+1;
-	}
-
 }
 
 void SHA256Final(SHA256_CTX *ctx, uchar hash[])
@@ -157,17 +137,18 @@ void SHA256Final(SHA256_CTX *ctx, uchar hash[])
 		
 	}
 	else{
-		ctx->data[63] = ctx->bitlen[0];  //(ctx->bitlen[0]) ? 1 : ((num < 0) ? -1 : 0)
-		ctx->data[62] = ctx->bitlen[0] >> 8;
-		ctx->data[61] = ctx->bitlen[0] >> 16;
-		ctx->data[60] = ctx->bitlen[0] >> 24;
+	ctx->data[63] = ctx->bitlen[0];  //(ctx->bitlen[0]) ? 1 : ((num < 0) ? -1 : 0)
+	ctx->data[62] = ctx->bitlen[0] >> 8;
+	ctx->data[61] = ctx->bitlen[0] >> 16;
+	ctx->data[60] = ctx->bitlen[0] >> 24;
 	
 	}
 	if (ctx->bitlen[1] == 0){
-		ctx->data[59] = 0 ;
-		ctx->data[58] = 0 ;
-		ctx->data[57] = 0 ;
-		ctx->data[56] = 0 ;
+		ctx->data[59] = 0;
+		ctx->data[58] = 0;
+		ctx->data[57] = 0;
+		ctx->data[56] = 0;
+		
 		
 	}
 	else{
@@ -178,125 +159,17 @@ void SHA256Final(SHA256_CTX *ctx, uchar hash[])
 	}
 	SHA256Transform(ctx, ctx->data);
 
-	//for (i = 0; i < 4; ++i) {
-	//	hash[i] = (ctx->state[0] >> (24 - i * 8)) & 0x000000ff;
-	//	hash[i + 4] = (ctx->state[1] >> (24 - i * 8)) & 0x000000ff;
-	//	hash[i + 8] = (ctx->state[2] >> (24 - i * 8)) & 0x000000ff;
-	//	hash[i + 12] = (ctx->state[3] >> (24 - i * 8)) & 0x000000ff;
-	//	hash[i + 16] = (ctx->state[4] >> (24 - i * 8)) & 0x000000ff;
-	//	hash[i + 20] = (ctx->state[5] >> (24 - i * 8)) & 0x000000ff;
-	//	hash[i + 24] = (ctx->state[6] >> (24 - i * 8)) & 0x000000ff;
-	//	hash[i + 28] = (ctx->state[7] >> (24 - i * 8)) & 0x000000ff;
-	//}
-	if (ctx->state[0] == 0){
-		hash[0] = 0;
-		hash[1] = 0;
-		hash[2] = 0;
-		hash[3] = 0;
+	for (i = 0; i < 4; ++i) {
+		hash[i] = (ctx->state[0] >> (24 - i * 8)) & 0x000000ff;
+		hash[i + 4] = (ctx->state[1] >> (24 - i * 8)) & 0x000000ff;
+		hash[i + 8] = (ctx->state[2] >> (24 - i * 8)) & 0x000000ff;
+		hash[i + 12] = (ctx->state[3] >> (24 - i * 8)) & 0x000000ff;
+		hash[i + 16] = (ctx->state[4] >> (24 - i * 8)) & 0x000000ff;
+		hash[i + 20] = (ctx->state[5] >> (24 - i * 8)) & 0x000000ff;
+		hash[i + 24] = (ctx->state[6] >> (24 - i * 8)) & 0x000000ff;
+		hash[i + 28] = (ctx->state[7] >> (24 - i * 8)) & 0x000000ff;
 	}
-	else{
-		hash[0] = (ctx->state[0] >> 24) & 0xFF;
-		hash[1] = (ctx->state[0] >> 16) & 0xFF;
-		hash[2] = (ctx->state[0] >> 8) & 0xFF;
-		hash[3] = ctx->state[0] & 0xFF;
-	}
-	
-	if (ctx->state[1] == 0){
-		hash[4] = 0;
-		hash[5] = 0;
-		hash[6] = 0;
-		hash[7] = 0;
-	}
-	else{
-		hash[4] = (ctx->state[1] >> 24) & 0xFF;
-		hash[5] = (ctx->state[1] >> 16) & 0xFF;
-		hash[6] = (ctx->state[1] >> 8) & 0xFF;
-		hash[7] = ctx->state[1] & 0xFF;
-	}
-	
-	if (ctx->state[2] == 0){
-		hash[8] = 0;
-		hash[9] = 0;
-		hash[10] = 0;
-		hash[11] = 0;
-	}
-	else{
-		hash[8] = (ctx->state[2] >> 24) & 0xFF;
-		hash[9] = (ctx->state[2] >> 16) & 0xFF;
-		hash[10] = (ctx->state[2] >> 8) & 0xFF;
-		hash[11] = ctx->state[2] & 0xFF;
-	}
-	
-	if (ctx->state[3] == 0){
-		hash[12] = 0;
-		hash[13] = 0;
-		hash[14] = 0;
-		hash[15] = 0;
-	}
-	else{
-		hash[12] = (ctx->state[3] >> 24) & 0xFF;
-		hash[13] = (ctx->state[3] >> 16) & 0xFF;
-		hash[14] = (ctx->state[3] >> 8) & 0xFF;
-		hash[15] = ctx->state[3] & 0xFF;
-	}
-	
-	if (ctx->state[4] == 0){
-		hash[12] = 0;
-		hash[13] = 0;
-		hash[14] = 0;
-		hash[15] = 0;
-	}
-	else{
-		hash[16] = (ctx->state[4] >> 24) & 0xFF;
-		hash[17] = (ctx->state[4] >> 16) & 0xFF;
-		hash[18] = (ctx->state[4] >> 8) & 0xFF;
-		hash[19] = ctx->state[4] & 0xFF;
-	}
-	
-	if (ctx->state[5] == 0){
-		hash[20] = 0;
-		hash[21] = 0;
-		hash[22] = 0;
-		hash[23] = 0;
-	}
-	else{
-		hash[20] = (ctx->state[5] >> 24) & 0xFF;
-		hash[21] = (ctx->state[5] >> 16) & 0xFF;
-		hash[22] = (ctx->state[5] >> 8) & 0xFF;
-		hash[23] = ctx->state[5] & 0xFF;
-	}
-	
-	if (ctx->state[6] == 0){
-		hash[24] = 0;
-		hash[25] = 0;
-		hash[26] = 0;
-		hash[27] = 0;
-	}
-	else{
-		hash[24] = (ctx->state[6] >> 24) & 0xFF;
-		hash[25] = (ctx->state[6] >> 16) & 0xFF;
-		hash[26] = (ctx->state[6] >> 8) & 0xFF;
-		hash[27] = ctx->state[6] & 0xFF;
-	}
-	
-	
-	if (ctx->state[7] == 0){
-		hash[28] = 0;
-		hash[29] = 0;
-		hash[30] = 0;
-		hash[31] = 0;
-	}
-	else{
-		hash[28] = (ctx->state[7] >> 24) & 0xFF;
-		hash[29] = (ctx->state[7] >> 16) & 0xFF;
-		hash[30] = (ctx->state[7] >> 8) & 0xFF;
-		hash[31] = ctx->state[7] & 0xFF;
-	}
-	
-	
-	
 }
-
 
 
 
@@ -306,23 +179,22 @@ void SHA256(char* data) {
 	unsigned char hash[32];
 
 	SHA256Init(&ctx);
-	//printf("strlen is %d \n", strLen);`
-	SHA256Update(&ctx, data, strLen, strLen);
-    SHA256Final(&ctx, hash);
+	SHA256Update(&ctx, data, strLen);
+	SHA256Final(&ctx, hash);
 
-	//char s[3];
+	char s[3];
 	for (int i = 0; i < 32; i++) printf("%02x", hash[i]);
 	printf("\n");
 
 }
 
 int main(void)
-{		
+{
+
 
     unsigned int mcycle_l_start, mcycle_h_start;
     unsigned int mcycle_l_end, mcycle_h_end;
     unsigned int total_time_l, total_time_h;
-
     char secrets[20][256] = {
 	"I used to play piano by ear, but now I use my hands.",
 	"Why don't scientists trust atoms? Because they make up everything.",
@@ -345,6 +217,7 @@ int main(void)
 	"Why did the hipster burn his tongue? He drank his coffee before it was cool.",
        	"The identity of the creator of Bitcoin, known by the pseudonym Satoshi Nakamoto, is still unknown. While many people have claimed to be Satoshi Nakamoto, no one has been able to conclusively prove their identity, and the true identity remains a mystery."
 };
+
 
     printf("SHA256 is RUNNING!! \n");
 
